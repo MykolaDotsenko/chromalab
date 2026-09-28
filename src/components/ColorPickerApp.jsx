@@ -93,7 +93,7 @@ export default function ColorPickerApp() {
           </span>
           <span>
             <strong>ChromaLab</strong>
-            <small>Accessible color systems</small>
+            <small>Color scale & contrast</small>
           </span>
         </a>
 
@@ -109,7 +109,7 @@ export default function ColorPickerApp() {
 
       <main id="studio">
         <section className="hero">
-          <p className="eyebrow">Color system studio</p>
+          <p className="eyebrow">Color scale studio</p>
           <h1>Turn one seed color into a usable, contrast-checked color scale.</h1>
           <p>
             Generate a deterministic 50–950 scale, inspect color models, verify
