@@ -110,7 +110,7 @@ export default function ColorPickerApp() {
       <main id="studio">
         <section className="hero">
           <p className="eyebrow">Color system studio</p>
-          <h1>Turn one seed color into a usable, accessible design system.</h1>
+          <h1>Turn one seed color into a usable, contrast-checked color scale.</h1>
           <p>
             Generate a deterministic 50–950 scale, inspect color models, verify
             WCAG contrast, preview UI, and export CSS variables without a color
@@ -272,7 +272,7 @@ export default function ColorPickerApp() {
         <section className="export-grid">
           <div>
             <p className="eyebrow">Handoff</p>
-            <h2>Production-ready CSS variables</h2>
+            <h2>CSS variables for handoff</h2>
             <p>
               The export is derived from the same canonical scale rendered above,
               so design inspection and implementation stay in sync.
@@ -296,7 +296,7 @@ export default function ColorPickerApp() {
 
         <footer>
           <span>ChromaLab · React color engineering case study</span>
-          <span>WCAG contrast math · local-first · zero runtime color libraries</span>
+          <span>WCAG contrast math · browser-saved seed · zero runtime color libraries</span>
         </footer>
       </main>
     </>
