@@ -99,7 +99,7 @@ export default function ColorPickerApp() {
 
         <a
           className="repo-link"
-          href="https://github.com/MykolaDotsenko/Color-Picker-react-training-app"
+          href="https://github.com/MykolaDotsenko/chromalab"
           target="_blank"
           rel="noreferrer"
         >
@@ -295,7 +295,7 @@ export default function ColorPickerApp() {
         </section>
 
         <footer>
-          <span>ChromaLab · React color engineering case study</span>
+          <span>ChromaLab · seed → scale → contrast → tokens</span>
           <span>WCAG contrast math · browser-saved seed · zero runtime color libraries</span>
         </footer>
       </main>
