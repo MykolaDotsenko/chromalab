@@ -96,13 +96,13 @@ Example shape:
 
 ```css
 :root {
-  --brand-50:  ...;
-  --brand-100: ...;
-  --brand-200: ...;
+  --color-brand-50:  ...;
+  --color-brand-100: ...;
+  --color-brand-200: ...;
   /* ... */
-  --brand-500: #6366F1;
+  --color-brand-500: #6366F1;
   /* ... */
-  --brand-950: ...;
+  --color-brand-950: ...;
 }
 ```
 
