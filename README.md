@@ -4,7 +4,7 @@
 
 A focused React color-engineering case study that turns one seed color into an inspectable **50–950 token scale**, calculates **WCAG contrast**, recommends a high-contrast foreground, and exports CSS variables.
 
-**GitHub Pages target:** https://mykoladotsenko.github.io/Color-Picker-react-training-app/
+**Demo status:** No public deployment is currently available. Run the app locally using the instructions below.
 
 The project began as an eight-button color-picker exercise. The current implementation keeps the interaction small while moving the interesting work into a browser-independent domain module that can be verified without React.
 
