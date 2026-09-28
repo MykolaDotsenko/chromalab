@@ -2,7 +2,7 @@
 
 **Start with one brand color. Leave with a usable scale, measured contrast, and CSS tokens.**
 
-[![Quality](https://github.com/MykolaDotsenko/chromalab/actions/workflows/quality.yml/badge.svg)](https://github.com/MykolaDotsenko/chromalab/actions/workflows/quality.yml)
+[**Open ChromaLab →**](https://mykoladotsenko.github.io/chromalab/)\n\n[![Quality](https://github.com/MykolaDotsenko/chromalab/actions/workflows/quality.yml/badge.svg)](https://github.com/MykolaDotsenko/chromalab/actions/workflows/quality.yml)
 
 ![ChromaLab color studio](./docs/assets/chromalab-studio.png)
 
