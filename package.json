@@ -2,7 +2,7 @@
   "name": "chromalab",
   "version": "1.0.0",
   "private": true,
-  "description": "An accessible color-system studio for palette tokens, WCAG contrast, previews, and CSS export.",
+  "description": "ChromaLab — a React color scale and WCAG contrast studio with CSS token export.",
   "type": "module",
   "engines": {
     "node": ">=22.22.0"
