@@ -1,88 +1,160 @@
 # ChromaLab — Color Scale & Contrast Studio
 
-[![Quality](https://github.com/MykolaDotsenko/Color-Picker-react-training-app/actions/workflows/quality.yml/badge.svg)](https://github.com/MykolaDotsenko/Color-Picker-react-training-app/actions/workflows/quality.yml)
+**Start with one brand color. Leave with a usable scale, measured contrast, and CSS tokens.**
 
-**Generate a deterministic 50–950 color scale, inspect HEX/RGB/HSL values, measure WCAG contrast, preview foreground choices and export CSS variables.**
+[![Quality](https://github.com/MykolaDotsenko/chromalab/actions/workflows/quality.yml/badge.svg)](https://github.com/MykolaDotsenko/chromalab/actions/workflows/quality.yml)
 
-This repository began as an eight-button React color-picker exercise. The current version keeps that learning history visible while turning the useful part into a small, testable color-engineering tool.
+![ChromaLab color studio](./docs/assets/chromalab-studio.png)
 
-> **Repository name note:** `Color-Picker-react-training-app` is the historical GitHub name. The current product name is **ChromaLab**.
+A common frontend task starts with something deceptively small:
 
-## Current status
+> “Our brand color is `#6366F1`. Can you turn it into a usable UI palette?”
 
-The application builds and is covered by unit, browser and accessibility checks.
+One color is not enough for a real interface. You usually need lighter surfaces, stronger states, readable text, predictable tokens, and a quick way to verify contrast before those values spread through the codebase.
 
-There is **no public deployment claimed currently**. The previous GitHub Pages workflow was removed because Pages was not enabled for this repository; keeping a permanently red deployment workflow would be worse evidence than stating the deployment status plainly.
-
-## What it does
-
-- native color picker + editable 3/6-digit HEX input;
-- deterministic 50–950 tint/shade scale;
-- HEX / RGB / HSL inspection;
-- WCAG relative-luminance and contrast ratios;
-- AA / AAA labels;
-- automatic black/white foreground selection by measured contrast;
-- live surface preview;
-- copyable swatches;
-- CSS custom-property export;
-- browser-saved seed color with defensive fallback.
-
-## Color domain
+ChromaLab keeps that workflow in one small browser tool.
 
 ```text
-seed
- ↓
-normalize
- ↓
-RGB / HSL / contrast
- ↓
+seed color
+   ↓
 50–950 scale
- ↓
-CSS token export
- ↓
-React presentation
+   ↓
+HEX / RGB / HSL
+   ↓
+contrast against black + white
+   ↓
+foreground recommendation
+   ↓
+CSS custom properties
 ```
 
-The color module has no React, DOM, storage or clipboard dependency.
+## From brand color to implementation
 
-The scale uses deterministic sRGB mixing. It deliberately does **not** claim perceptual uniformity; OKLCH would be a better model if perceptually even lightness steps became a product requirement.
+Enter a HEX value or use the native color picker.
 
-## Contrast
+For a seed such as:
 
-ChromaLab implements WCAG relative luminance and derives contrast as:
+```text
+#6366F1
+```
+
+ChromaLab generates a deterministic **50–950 scale** around it and keeps the seed at the 500 step.
+
+Each swatch can be copied directly. The same scale can be exported as CSS variables, so the values being inspected are the values handed to the implementation.
+
+That makes the tool useful for small jobs such as:
+
+- exploring a new brand/accent color;
+- preparing a token scale for a component or prototype;
+- checking whether dark or light foreground text is safer;
+- copying a specific shade into DevTools;
+- handing a small palette from design exploration into CSS.
+
+## Contrast is measured, not eyeballed
+
+For the current seed, ChromaLab calculates WCAG relative luminance and contrast against both white and black.
 
 ```text
 (Llighter + 0.05) / (Ldarker + 0.05)
 ```
 
-Tests include the canonical black/white **21:1** case and the AA / AAA grade boundaries.
+The studio shows the ratio and AA / AAA grade, then recommends whichever of black or white has the higher measured contrast on the selected surface.
 
-The preview chooses black or white text by comparing the two measured contrast ratios. That is useful for a binary foreground recommendation, but it is not presented as a complete accessibility audit of an arbitrary design system.
+The preview therefore answers a practical question immediately:
 
-## Architecture
+> “If this becomes a button or panel background, should the text be light or dark?”
+
+The recommendation is intentionally narrow. It is a black/white foreground decision, not a claim that one contrast check proves an entire interface accessible.
+
+## The scale is predictable
+
+Palette generation lives in a pure color module rather than inside React components.
 
 ```text
-React UI
-   ↓
-pure color domain
-   ├── normalization
-   ├── RGB / HSL conversion
-   ├── scale generation
-   ├── luminance / contrast
-   └── CSS serialization
-
-browser storage
-   ↓
-validated seed color
+normalize seed
+      ↓
+describe RGB / HSL
+      ↓
+mix deterministic tints + shades
+      ↓
+calculate contrast
+      ↓
+serialize CSS tokens
 ```
 
-No color library, router, state library or component framework is required for the current scope.
+The current scale uses deterministic **sRGB mixing**.
+
+That gives stable, testable output. It does not claim perceptually uniform lightness steps; if perceptual uniformity became a product requirement, OKLCH would be the more appropriate model.
+
+## The exported tokens come from the same source
+
+ChromaLab does not maintain a separate “pretty preview palette” and “implementation palette”.
+
+The rendered swatches and exported custom properties are derived from the same canonical scale.
+
+Example shape:
+
+```css
+:root {
+  --brand-50:  ...;
+  --brand-100: ...;
+  --brand-200: ...;
+  /* ... */
+  --brand-500: #6366F1;
+  /* ... */
+  --brand-950: ...;
+}
+```
+
+That removes a small but common handoff problem: copying values manually from an exploratory tool into production CSS and introducing a mismatch.
+
+## Small browser details still matter
+
+The seed color is saved locally, so reopening the tool restores the last valid selection.
+
+Invalid persisted data fails closed to the default seed instead of becoming application state.
+
+The studio also includes:
+
+- editable 3- and 6-digit HEX input;
+- native visual color picker;
+- HEX / RGB / HSL inspection;
+- copyable scale swatches;
+- live foreground preview;
+- Clipboard API feedback;
+- visible validation states;
+- reduced-motion support;
+- forced-colors fallback;
+- keyboard-accessible native controls.
+
+## Under the UI
+
+```text
+React presentation
+        │
+        ▼
+pure color domain
+├── HEX normalization
+├── RGB / HSL conversion
+├── deterministic scale
+├── luminance / contrast
+├── foreground selection
+└── CSS serialization
+
+browser storage
+        │
+        └── validated seed only
+```
+
+The color domain has no React, DOM, storage, or clipboard dependency.
+
+Runtime dependencies are only React and React DOM.
 
 ## Stack
 
 - React 19
 - Vite 8
-- JavaScript / native ES modules
+- JavaScript / ES modules
 - Web Storage
 - Clipboard API
 - Node built-in test runner
@@ -91,59 +163,34 @@ No color library, router, state library or component framework is required for t
 - ESLint
 - GitHub Actions
 
-Runtime dependencies are only React and React DOM.
-
-## Quality
-
-```bash
-npm ci
-npm run check
-npx playwright install chromium
-npm run test:e2e
-```
-
-The suite covers:
-
-- HEX normalization and RGB round trips;
-- deterministic color mixing and scale generation;
-- WCAG contrast math and foreground selection;
-- CSS token serialization;
-- corrupt persisted data;
-- seed editing + reload persistence;
-- invalid input recovery;
-- export visibility;
-- serious WCAG A/AA axe violations;
-- desktop/mobile horizontal overflow.
-
-CI is read-only: it verifies the committed lockfile rather than rewriting PR branches from inside a workflow.
+Tests cover HEX normalization, RGB round trips, deterministic mixing, the stable 500 seed, WCAG contrast math, foreground selection, CSS serialization, corrupt persistence, browser persistence, invalid-input recovery, accessibility, and desktop/mobile overflow.
 
 ## Run locally
 
 Requires Node.js 22.22+.
 
 ```bash
+git clone https://github.com/MykolaDotsenko/chromalab.git
+cd chromalab
 npm ci
 npm run dev
 ```
 
-Production build:
+Verification:
 
 ```bash
-npm run build
-npm run preview
+npm run check
+npx playwright install chromium
+npm run test:e2e
 ```
 
-## Quick code review
+## Code map
 
-- [`src/domain/color.js`](./src/domain/color.js) — color math and serialization
-- [`src/components/ColorPickerApp.jsx`](./src/components/ColorPickerApp.jsx) — UI composition
-- [`src/storage/colorStorage.js`](./src/storage/colorStorage.js) — persisted seed boundary
+- [`src/domain/color.js`](./src/domain/color.js) — color math and token serialization
+- [`src/components/ColorPickerApp.jsx`](./src/components/ColorPickerApp.jsx) — studio UI
+- [`src/storage/colorStorage.js`](./src/storage/colorStorage.js) — saved-seed boundary
 - [`tests/color.test.js`](./tests/color.test.js) — domain regression tests
-- [`e2e/chromalab.spec.js`](./e2e/chromalab.spec.js) — browser/accessibility coverage
-- [`.github/workflows/quality.yml`](./.github/workflows/quality.yml) — CI gate
+- [`e2e/chromalab.spec.js`](./e2e/chromalab.spec.js) — browser and accessibility checks
+- [`ARCHITECTURE.md`](./ARCHITECTURE.md) — deeper implementation notes
 
-## Scope
-
-ChromaLab is a compact color utility and learning-history repository, not a Figma replacement or a complete design-system platform.
-
-That constraint is intentional: the repository is most useful as evidence of color-domain logic, accessibility math, defensive persistence and proportionate React architecture.
+ChromaLab started as a much smaller React color-picker exercise. The repository keeps that history in Git while the current product surface focuses on the useful workflow above.
