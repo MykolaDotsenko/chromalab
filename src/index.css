@@ -2,29 +2,80 @@
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
-  color: #e8eef8;
-  background: #090d18;
+  color: #fff5f7;
+  background: #050306;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   color-scheme: dark;
+
+  --bg: #050306;
+  --bg-soft: #0b0509;
+  --panel: #12070d;
+  --panel-strong: #18080f;
+  --panel-black: #070306;
+  --text: #fff5f7;
+  --muted: #c9a8b4;
+  --faint: #8f6775;
+  --line: rgba(255, 72, 113, 0.2);
+  --line-strong: rgba(255, 65, 108, 0.52);
+  --red: #ff315f;
+  --red-hot: #ff174f;
+  --pink: #ff4f9a;
+  --pink-hot: #ff2f88;
+  --magenta: #e635ff;
+  --wine: #6f102d;
+  --amber: #ffb25c;
+  --shadow-red: 0 0 26px rgba(255, 35, 89, 0.25);
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
+  background: var(--bg);
 }
 
 body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
+  overflow-x: hidden;
   background:
-    radial-gradient(circle at 8% 0%, rgba(34, 211, 238, 0.1), transparent 31rem),
-    radial-gradient(circle at 93% 4%, rgba(129, 140, 248, 0.13), transparent 34rem),
-    #090d18;
+    radial-gradient(circle at 10% -10%, rgba(255, 24, 79, 0.24), transparent 31rem),
+    radial-gradient(circle at 88% 0%, rgba(226, 53, 255, 0.15), transparent 34rem),
+    radial-gradient(circle at 50% 115%, rgba(122, 12, 43, 0.28), transparent 40rem),
+    linear-gradient(180deg, #060306 0%, #090408 48%, #040204 100%);
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  content: "";
+  background:
+    linear-gradient(rgba(255, 48, 93, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 48, 93, 0.028) 1px, transparent 1px);
+  background-size: 58px 58px;
+  mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, .88) 55%, transparent 100%);
+}
+
+body::after {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+  background:
+    radial-gradient(circle at 17% 28%, rgba(255,255,255,.36) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 74% 18%, rgba(255,82,141,.42) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 52% 72%, rgba(255,49,95,.3) 0 1px, transparent 1.4px);
+  background-size: 173px 173px, 241px 241px, 307px 307px;
+  opacity: .32;
 }
 
 button,
@@ -43,13 +94,16 @@ input {
 }
 
 ::selection {
-  background: #67e8f9;
-  color: #090d18;
+  background: rgba(255, 49, 95, 0.78);
+  color: #fff;
 }
 
 :focus-visible {
-  outline: 3px solid #67e8f9;
-  outline-offset: 3px;
+  outline: 2px solid #ff6f98;
+  outline-offset: 4px;
+  box-shadow:
+    0 0 0 5px rgba(255, 49, 95, 0.11),
+    0 0 26px rgba(255, 49, 95, 0.32);
 }
 
 @media (prefers-reduced-motion: reduce) {
